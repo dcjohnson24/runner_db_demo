@@ -1,0 +1,8 @@
+pandas
+scikit-learn
+fuzzywuzzy
+python-Levenshtein
+tqdm
+matplotlib
+statsmodels
+pmdarima
