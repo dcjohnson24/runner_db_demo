@@ -2,8 +2,8 @@ import sys
 import os
 sys.path.append(os.pardir)
 
-from typing import Callable
 import pmdarima as pm
+from pmdarima.model_selection import cross_val_score
 import datetime
 import pandas as pd
 import numpy as np
@@ -18,7 +18,7 @@ def predict_runner(name: str, df: pd.DataFrame, n_forecasts: int=1) -> str:
 
     Arguments:
         name {str} -- Runner name
-        df {pd.DataFrame} -- DataFrame for runner
+        df {pd.DataFrame} -- DataFrame of races
 
     Keyword Arguments:
         n_forecasts {int} -- number of steps ahead (default: {1})
@@ -32,6 +32,8 @@ def predict_runner(name: str, df: pd.DataFrame, n_forecasts: int=1) -> str:
     minutes = runner_df.time.dt.seconds / 60.0
     model = pm.auto_arima(minutes, seasonal=False, suppress_warnings=True)
     pred, conf_int = model.predict(n_forecasts, return_conf_int=True)
+    cv_score = cross_val_score(model, minutes, scoring='mean_absolute_error')
+    mean_cv_score = np.mean(cv_score)
 
     def formatter(num: int) -> str:
         return str(datetime.timedelta(minutes=num)).split('.')[0]
@@ -42,7 +44,10 @@ def predict_runner(name: str, df: pd.DataFrame, n_forecasts: int=1) -> str:
                    f'The prediction for the next 42 km race'
                    f' is {pred_format} with 95 % confidence'
                    f' interval ({conf_int_format[0]},'
-                   f' {conf_int_format[1]})')
+                   f' {conf_int_format[1]})\n'
+                   f'The average cross validation error score is'
+                   f' {round(mean_cv_score, 2)} minutes.\n'
+                   f'Error is measured using Mean Absolute Error (MAE)')
     pred_string = pred_string.split('\n')
     return pred_string
 
