@@ -40,13 +40,14 @@ def predict_runner(name: str, df: pd.DataFrame, n_forecasts: int=1) -> str:
 
     pred_format = formatter(pred[0])
     conf_int_format = [formatter(x) for x in conf_int[0]]
+    mean_cv_score_format = formatter(mean_cv_score)
     pred_string = (f'Results for {runner_df.name.unique()[0]}\n'
                    f'The prediction for the next 42 km race'
                    f' is {pred_format} with 95 % confidence'
                    f' interval ({conf_int_format[0]},'
                    f' {conf_int_format[1]})\n'
                    f'The average cross validation error score is'
-                   f' {round(mean_cv_score, 2)} minutes.\n'
+                   f' {mean_cv_score_format}.\n'
                    f'Error is measured using Mean Absolute Error (MAE)')
     pred_string = pred_string.split('\n')
     return pred_string
