@@ -72,7 +72,7 @@ services:
       - database  
     ...
 ```
-You can define multiple services under the `services` block such as `web` or `database`. You can also have services depend on each other under the `depends_on` configuration. The environment variable `FLASK_ENV` will be set to `development` or `production` from the terminal, determining the config to be used.
+You can define multiple services under the `services` heading such as `web` or `database`. You can also have services depend on each other under the `depends_on` heading. The environment variable `FLASK_ENV` will be set to `development` or `production` from the terminal, determining the config to be used.
 
 The `docker-compose.yml` file references a Dockerfile that will pull a base image to work from. It includes a `requirements.txt` file that lists the packages to be installed into the container. The Dockerfile should be in the same directory as the `docker-compose.yml` file. The location of the Dockerfile can also be specified under the `build` heading and `context` subheading. Some examples of how to write Dockerfiles can be found [here](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
 
@@ -107,10 +107,10 @@ If you prefer to have the app start after container creation, simply comment out
 The app should be running on localhost at the specified port. If you are using `Docker Toolbox`, this may not be accessible on localhost. You will have to get the IP of your docker machine with `docker-machine ip`, and then type the resulting IP into your browser with the appropriate port, for example `192.168.99.100:5000`.
 
 ## Data 
-The data is generated with in `data/gen_data.py`. The data is drawn normally distributed around the runners mean marathon with a standard deviation of 15 minutes.
+The data is generated with in `data/gen_data.py`. The data is drawn from a normal distribution with a standard deviation of 15 minutes.
 
 ## Prediction
-The race predictions are made using an ARIMA time series model. For now, the parameters for the ARIMA model are set automatically with the `auto_arima` function in the [`pmdarima`](https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.arima.auto_arima.html) package.  Further cross validation techniques can be added.
+The race predictions are made using an ARIMA time series model. For now, the parameters for the ARIMA model are set automatically with the `auto_arima` function in the [`pmdarima`](https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.arima.auto_arima.html) package. It seeks to find the parameters that minimize AIC. Cross validation is done with a rolling forecast orgin. 
 
 ## Running the tests
 
