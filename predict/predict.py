@@ -24,7 +24,8 @@ def predict_runner(name: str, df: pd.DataFrame, n_forecasts: int=1) -> str:
         n_forecasts {int} -- number of steps ahead (default: {1})
 
     Returns:
-        str -- The prediction and confidence intervals of the next race time
+        str -- The prediction, confidence intervals, and average cross
+               validation error of the next race time
     """
     runner_df = df.loc[df.name.str.contains(name, case=False)]
     if runner_df.empty:
