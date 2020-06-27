@@ -1,6 +1,6 @@
 # Runner Database Demo
 
-This is a demo runner database for the RCS Gugulethu Atheltics Club. It allows you to predict race times on synthetic data. You can search for a runner such as Karabo Khumalo, Lethabo Ndlovu, and Bandile Nkosi (fake runners) and get the predicted race time.
+This is a demo runner database for the RCS Gugulethu Athletics Club. It allows you to predict race times on synthetic data. You can search for a runner such as Karabo Khumalo, Lethabo Ndlovu, and Bandile Nkosi (fake runners) and get the predicted race time.
 
 The app is hosted on Heroku https://runner-db-demo.herokuapp.com/
 
