@@ -26,9 +26,12 @@ Activate the environment with
 ```bash
 source .venv/bin/activate
 ```
-To install the necessary packages in your virtualenv, use 
+The `python-Levenshtein` package in `requirements_ts.txt` requires `python3-dev` to be installed first (`sudo apt install python3-dev`) before running the `pip install` commands. 
+
+Once done, install the necessary packages in your virtualenv with 
 ```bash
 pip install -r requirements.txt
+pip install -r requirements_ts.txt
 ```
 
 ### Docker
@@ -107,7 +110,17 @@ If you prefer to have the app start after container creation, simply comment out
 The app should be running on localhost at the specified port. If you are using `Docker Toolbox`, this may not be accessible on localhost. You will have to get the IP of your docker machine with `docker-machine ip`, and then type the resulting IP into your browser with the appropriate port, for example `192.168.99.100:5000`.
 
 ## Data 
-The data is generated with in `data/gen_data.py`. The data is drawn from a normal distribution with a standard deviation of 15 minutes.
+The data is generated with in `data/gen_data.py`. The data is drawn from a normal distribution with a standard deviation of 15 minutes. 
+
+To seed the postgres database running inside a docker container, start the docker containers with 
+```
+docker compose up -d
+``` 
+and then run 
+```
+docker exec -it flask_sqlalchemy python data/gen_data.py
+```
+When viewing the app on localhost, you will be able to get the race predictions.
 
 ## Prediction
 The race predictions are made using an ARIMA time series model. For now, the parameters for the ARIMA model are set automatically with the `auto_arima` function in the [`pmdarima`](https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.arima.auto_arima.html) package. It seeks to find the parameters that minimize AIC. Cross validation is done with a rolling forecast orgin. 
