@@ -5,8 +5,7 @@ ARG FLASK_ENV_ARG
 ENV FLASK_ENV=${FLASK_ENV_ARG}
 
 COPY requirements.txt requirements_ts.txt /
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt -r requirements_ts.txt
+RUN pip install --upgrade pip  && pip install -r requirements.txt -r requirements_ts.txt
 
 COPY . /
 WORKDIR /
