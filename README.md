@@ -109,6 +109,18 @@ If you prefer to have the app start after container creation, simply comment out
 
 The app should be running on localhost at the specified port. If you are using `Docker Toolbox`, this may not be accessible on localhost. You will have to get the IP of your docker machine with `docker-machine ip`, and then type the resulting IP into your browser with the appropriate port, for example `192.168.99.100:5000`.
 
+### .env file
+The `database` service in `docker-compose.yml` will read the database settings from a `.env` file. Create a `.env` file in the top level directory and add something such as
+
+```
+POSTGRES_USER=db_user
+POSTGRES_HOST=database
+POSTGRES_DB=some_db
+POSTGRES_PORT=5432
+POSTGRES_PASSWORD=foobar
+```
+The `POSTGRES_HOST` variable is the same name as the service for the `Postgres` container in `docker-compose.yml`, in this case `database`.
+
 ## Data 
 The data is generated with in `data/gen_data.py`. The data is drawn from a normal distribution with a standard deviation of 15 minutes. 
 
@@ -118,7 +130,7 @@ docker compose up -d
 ``` 
 and then run 
 ```
-docker exec -it flask_sqlalchemy python data/gen_data.py
+docker exec -it <web_service_container_name> python data/gen_data.py
 ```
 When viewing the app on localhost, you will be able to get the race predictions.
 
