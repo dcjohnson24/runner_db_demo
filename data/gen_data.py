@@ -1,8 +1,14 @@
+import os
+import sys
 import pandas as pd
 import numpy as np
 import datetime
 from sqlalchemy.exc import IntegrityError
 
+from os.path import dirname, abspath
+
+path = dirname(dirname(abspath(__file__)))
+sys.path.append(path)
 
 from app.models import Race
 from app import db, create_app
